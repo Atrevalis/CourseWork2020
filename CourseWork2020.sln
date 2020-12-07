@@ -1,0 +1,17 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourseWork2020", "CourseWork2020\CourseWork2020.csproj", "{31BE3DAA-BCC1-407E-9B4C-B29953A31119}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|anycpu = Debug|anycpu
+		Release|anycpu = Release|anycpu
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31BE3DAA-BCC1-407E-9B4C-B29953A31119}.Debug|anycpu.ActiveCfg = Debug|anycpu
+		{31BE3DAA-BCC1-407E-9B4C-B29953A31119}.Debug|anycpu.Build.0 = Debug|anycpu
+		{31BE3DAA-BCC1-407E-9B4C-B29953A31119}.Release|anycpu.ActiveCfg = Release|anycpu
+		{31BE3DAA-BCC1-407E-9B4C-B29953A31119}.Release|anycpu.Build.0 = Release|anycpu
+	EndGlobalSection
+EndGlobal
