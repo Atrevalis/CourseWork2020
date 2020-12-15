@@ -4,12 +4,14 @@ namespace CourseWork2020
     public class GameField
     {
         private int[,] originalField;//поле ответов
-        private int[,] startField;//поле неизменяемого состояния НЕ МЕНЯТЬ
+        private int[,] startField;//поле неизменяемого состояния хранит в себе не изменяемые поля(стартовые и подсказанные)
         private int[,] problemField;//поле основной игры изменяемой игроком 
 
         public GameField()//составляет изначальную сетку поля
         {
             originalField = new int[9,9];
+            problemField = new int[9, 9];
+            startField = new int[9, 9];
             for (int i = 0;i<9;i++ )
             {
                 for (int j = 0; j < 9; j++)
@@ -18,6 +20,7 @@ namespace CourseWork2020
                 }
             }
             Shaffle();
+
         }
         public bool Check()//сравнивает поля ориджинал и проблем
         {
@@ -39,7 +42,7 @@ namespace CourseWork2020
                 problemField[x, y] = num;
                 if (Checker(x, y) == true)
                 {
-                    //вставить обращение к UI
+                    //вставить обращение к UI(Скорее всего в анализаторе будет это)
                 }
            
         }
@@ -53,17 +56,22 @@ namespace CourseWork2020
         {
             for (int i = 0; i < 9; i++)
             {
-                if (problemField[x, y] == problemField[x, i]) { return true; }
+                if (problemField[x, y] == problemField[x, i] && i!=y) { return true; }
             }
             for (int i = 0; i < 9; i++)
             {
-                if (problemField[x, y] == problemField[i, y]) { return true; }
+                if (problemField[x, y] == problemField[i, y] && i != x) { return true; }
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                if (problemField[x, y] == problemField[i, y] && i != y) { return true; }
             }
             return false;
         }
         public void Hint(int x,int y)//подсказчик по указанию 
         {
             problemField[x, y] = originalField[x,y];
+            startField[x,y] = originalField[x, y];
             //Здесь обращение к  UI блокирующее поле с координатами x,y(скорее всего будет по другому и блокировать будет в анализаторе )
         }
        /* public void Hint()
@@ -83,22 +91,22 @@ namespace CourseWork2020
                 switch(random.Next(1, 6))
                 {
                     case 1:
-                        this.Transpos();
+                        Transpos();
                         break;
                     case 2:
-                        this.SwapLine();
+                        SwapLine();
                         break;
                     case 3:
-                        this.SwapBigLine();
+                        SwapBigLine();
                         break;
                     case 4:
-                        this.SwapColumne();
+                        SwapColumne();
                         break;
                     case 5:
-                        this.SwapBigColumne();
+                        SwapBigColumne();
                         break;
                     default:
-                        this.Transpos();//на всякий
+                        Transpos();//на всякий
                         break;
                 }
             }
@@ -117,13 +125,23 @@ namespace CourseWork2020
         }
         private void SwapLine()//свапает одну линию с другой
         {
-            Random random = new Random();
-            int first = random.Next(9);
-            int second = random.Next(2);
-            int[] swLine = new int[9];
-            for (int i = 0;i<9 ;i++) {
 
+            Random random = new Random();
+            int area = random.Next(3);
+            int non = random.Next(2);
+            int[] arr = new int[2];
+            int j = 0;
+            for (int i = 0; i<3;i++)
+            {
+                if (i!=non) { arr[j] = 3 * area + i; j++; }
             }
+            for (int i = 0;i < 9 ;i++)
+            {
+                int temp = originalField[arr[0],i];
+                originalField[arr[0], i] = originalField[arr[1], i];
+                originalField[arr[1], i] = originalField[arr[0], i];
+            }
+
 
         }
         private void SwapBigLine()//свапает большую линию из 3 с другой 
@@ -150,7 +168,9 @@ namespace CourseWork2020
         }
         private void SwapColumne()//свапает одну колонку с другой
         {
-
+            Transpos();
+            SwapLine();
+            Transpos();
         }
         private void SwapBigColumne()//свапает большую колонку из 3 с другой 
         {
