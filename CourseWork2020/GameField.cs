@@ -3,9 +3,9 @@ namespace CourseWork2020
 {
     public class GameField
     {
-        int[,] originalField;//поле ответов
-        int[,] startField;//поле изначального состояния НЕ МЕНЯТЬ
-        int[,] problemField;//поле основной игры изменяемой игроком 
+        private int[,] originalField;//поле ответов
+        private int[,] startField;//поле неизменяемого состояния НЕ МЕНЯТЬ
+        private int[,] problemField;//поле основной игры изменяемой игроком 
 
         public GameField()//составляет изначальную сетку поля
         {
@@ -17,9 +17,9 @@ namespace CourseWork2020
                     originalField[i,j]=(j+i*3)%9;
                 }
             }
-            shaffle();
+            Shaffle();
         }
-        public bool check()//сравнивает поля ориджинал и проблем
+        public bool Check()//сравнивает поля ориджинал и проблем
         {
             for(int i=0; i < 9; i++)
             {
@@ -33,22 +33,48 @@ namespace CourseWork2020
             }
             return true;
         }
-        public void add(int num,int x,int y)//добавляет клетку в problem
+        public void Add(int num,int x,int y)//добавляет клетку в problem
         {
-            if (startField[x,y]==0)
-            {
+            
                 problemField[x, y] = num;
-            }
-            else
-            {
-                //здесь возможно будет вызов всплывающего окошка
-            }
+                if (Checker(x, y) == true)
+                {
+                    //вставить обращение к UI
+                }
+           
         }
-        public void delete(int linePos, int colPos)//удаляет клетку из problem
+
+        public void Delete(int linePos, int colPos)//удаляет клетку из problem
         {
             problemField[linePos, colPos] = 0;
         }
-        private void shaffle()//перемешивает поле с помощью нижних функций
+
+        public bool Checker(int x, int y)//проверяет наличие конфликтующих элементов
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                if (problemField[x, y] == problemField[x, i]) { return true; }
+            }
+            for (int i = 0; i < 9; i++)
+            {
+                if (problemField[x, y] == problemField[i, y]) { return true; }
+            }
+            return false;
+        }
+        public void Hint(int x,int y)//подсказчик по указанию 
+        {
+            problemField[x, y] = originalField[x,y];
+            //Здесь обращение к  UI блокирующее поле с координатами x,y(скорее всего будет по другому и блокировать будет в анализаторе )
+        }
+       /* public void Hint()
+        {
+            Random random = new Random();
+            int x = random.Next(1,10);
+            int y = random.Next(1,10);
+            problemField[x, y] = originalField[x, y];    
+        }*///не эффективно на поздних стадиях игры, будет добавлено если найдем более быстрый алгоритм
+        
+        private void Shaffle()//перемешивает поле с помощью нижних функций
         {
             Random random = new Random();
             int rand = random.Next(10, 101);//уменьшить при долгом создании матрицы(на данный момент 9<х<101)
@@ -57,27 +83,27 @@ namespace CourseWork2020
                 switch(random.Next(1, 6))
                 {
                     case 1:
-                        this.transpos();
+                        this.Transpos();
                         break;
                     case 2:
-                        this.swapLine();
+                        this.SwapLine();
                         break;
                     case 3:
-                        this.swapBigLine();
+                        this.SwapBigLine();
                         break;
                     case 4:
-                        this.swapColumne();
+                        this.SwapColumne();
                         break;
                     case 5:
-                        this.swapBigColumne();
+                        this.SwapBigColumne();
                         break;
                     default:
-                        this.transpos();//на всякий
+                        this.Transpos();//на всякий
                         break;
                 }
             }
         }
-        private void transpos()//транспонирует матрицу
+        private void Transpos()//транспонирует матрицу
         {
             int[,] tempArray = new int[9, 9];
             for(int i = 0; i < 9; i++)
@@ -89,7 +115,7 @@ namespace CourseWork2020
             }
             originalField = tempArray;
         }
-        private void swapLine()//свапает одну линию с другой
+        private void SwapLine()//свапает одну линию с другой
         {
             Random random = new Random();
             int first = random.Next(9);
@@ -100,7 +126,7 @@ namespace CourseWork2020
             }
 
         }
-        private void swapBigLine()//свапает большую линию из 3 с другой 
+        private void SwapBigLine()//свапает большую линию из 3 с другой 
         {
             int n = 3;
             Random l = new Random();
@@ -122,15 +148,15 @@ namespace CourseWork2020
                 }
             }
         }
-        private void swapColumne()//свапает одну колонку с другой
+        private void SwapColumne()//свапает одну колонку с другой
         {
 
         }
-        private void swapBigColumne()//свапает большую колонку из 3 с другой 
+        private void SwapBigColumne()//свапает большую колонку из 3 с другой 
         {
-            transpos();
-            swapBigLine();
-            transpos();
+            Transpos();
+            SwapBigLine();
+            Transpos();
         }
     }
 }
