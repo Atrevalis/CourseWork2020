@@ -17,7 +17,7 @@ namespace CourseWork2020
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    originalField[i,j]=(j+i*3)%9;
+                    originalField[i,j]=(j+i/3+i*3)%9+1;
                     problemField[i,j] = originalField[i, j];
                 }
             }
