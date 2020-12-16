@@ -101,9 +101,56 @@ namespace CourseWork2020
             startField[x,y] = originalField[x, y];
             //Здесь обращение к  UI блокирующее поле с координатами x,y(скорее всего будет по другому и блокировать будет в анализаторе )
         }
-        public void CreateProblem()//ДОПИСАТЬ
+        public void CreateProblem(int diff)//создание игрового поля в соответствии со сложностью
         {
-
+            int temp;
+            int[,] look = new int[9, 9];//массив проверки посещения клетки
+            int count = 0;//счетчик просмотренных клеток
+            Random r = new Random();
+            while (count < diff)
+            {
+                int i = r.Next(0, 9);//нахождение рандомной клетки
+                int j = r.Next(0, 9);
+                if (look[i, j] == 0)
+                {
+                    count += 1;
+                    look[i, j] = 1;//пометка клетки
+                    temp = problemField[i, j];//сохранение изначальной клетки
+                    problemField[i, j] = 0;//удаление клетки
+                    diff--;
+                    int[,] tempArray = new int[9, 9];//временный массив
+                    for (int g = 0; g < 9; g++)//копируем в временный массив problemField
+                    {
+                        for (int h = 0; h < 9; h++)
+                        {
+                            tempArray[g, h] = problemField[g, h];
+                        }
+                    }
+                    if (SudokuSolve(tempArray))//проверка на решабельность поля
+                    {
+                        for (int k = 0; k < 9; k++)//сравнение решенного поля с изначальным
+                        {
+                            for (int f = 0; f < 9; f++)
+                            {
+                                if (tempArray[k, f] == originalField[k, f])
+                                    continue;
+                                else
+                                {
+                                    problemField[i, j] = temp;
+                                    diff++;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    else
+                    {
+                        problemField[i, j] = temp;
+                        diff++;
+                        break;
+                    }
+                }
+            }
         }
 
         private void Shaffle()//перемешивает поле с помощью нижних функций
