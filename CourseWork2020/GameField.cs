@@ -62,9 +62,15 @@ namespace CourseWork2020
             {
                 if (problemField[x, y] == problemField[i, y] && i != x) { return true; }
             }
-            for (int i = 0; i < 9; i++)
+            int l, c;
+            if (x < 3) { l = 0; } else { if (x < 6) { l = 1; } else { l = 2; } }
+            if (y < 3) { c = 0; } else { if (y < 6) { c = 1; } else { c = 2; } }
+            for (int i = 0+3*l; i<=2+3*l;i++)
             {
-                if (problemField[x, y] == problemField[i, y] && i != y) { return true; }
+                for (int j = 0 + 3 * c; j <= 2 + 3 * c; j++)
+                {
+                    if (problemField[x, y] == problemField[i, j] && i != x && j!=y) { return true; }
+                }
             }
             return false;
         }
