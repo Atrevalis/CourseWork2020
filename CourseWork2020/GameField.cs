@@ -8,7 +8,7 @@ namespace CourseWork2020
         private int[,] startField;//поле неизменяемого состояния хранит в себе не изменяемые поля(стартовые и подсказанные)
         private int[,] problemField;//поле основной игры изменяемой игроком 
 
-        public GameField()//составляет изначальную сетку поля для обычного режима
+        public GameField()//составляет изначальную сетку поля для обычного режима//ДОПИСАТЬ
         {
             originalField = new int[9,9];
             problemField = new int[9, 9];
@@ -18,25 +18,33 @@ namespace CourseWork2020
                 for (int j = 0; j < 9; j++)
                 {
                     originalField[i,j]=(j+i*3)%9;
+                    problemField[i,j] = originalField[i, j];
                 }
             }
             Shaffle();
-
-
-        }
-        public GameField(int[,] field)//ДОПИСАТЬ
-        {
-            originalField = new int[9, 9];
-            problemField = new int[9, 9];
-            startField = new int[9, 9];
-            SudokuSolve(field);
+            CreateProblem();
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    originalField[i, j] = field[i, j];
+                    startField[i, j] = problemField[i, j];
                 }
             }
+
+        }
+        public GameField(int[,] field)//ДОПИСАТЬ
+        {
+                originalField = new int[9, 9];
+                problemField = new int[9, 9];
+                startField = new int[9, 9];
+                bool create = SudokuSolve(field);
+                for (int i = 0; i < 9; i++)
+                {
+                    for (int j = 0; j < 9; j++)
+                    {
+                        originalField[i, j] = field[i, j];
+                    }
+                }  
         }
         public bool Check()//сравнивает поля ориджинал и проблем
         {
@@ -206,18 +214,18 @@ namespace CourseWork2020
             SwapBigLine();
             Transpos();
         }
-        public void SudokuSolve(int[,] field)//вывод решения судоку
+        public bool SudokuSolve(int[,] field)//вывод решения судоку
         {
            bool exit = true;
             for (int i = 0;i<9 ;i++)
             {
                 for (int j = 0; j < 9; j++)
                 {
-                    if (field[i,j]!=0) { exit = false; }
+                    if (field[i,j]!=0) { exit = false; break; }
                 }
             }
-            if (exit) { return; }//мб сюда запихнутть алгроритм постройки поля из обычного режима
-            Solver(field);
+            if (exit) { return false; }//мб сюда запихнуть алгоритм постройки поля из обычного режима
+            return Solver(field);
         }
         public bool Solver(int[,] field)//решатель судоку
         {
