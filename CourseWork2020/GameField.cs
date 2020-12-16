@@ -144,7 +144,6 @@ namespace CourseWork2020
                                 else
                                 {
                                     problemField[i, j] = temp;
-                                    count -= 1;
                                     break;
                                 }
                             }
@@ -153,7 +152,6 @@ namespace CourseWork2020
                     else
                     {
                         problemField[i, j] = temp;
-                        count -= 1;
                         break;
                     }
                 }
