@@ -225,23 +225,20 @@ namespace CourseWork2020
         }
         private void SwapBigLine()//свапает большую линию из 3 с другой 
         {
-            int n = 3;
             Random l = new Random();
-            var block1 = l.Next(0, n);
-            var block2 = l.Next(0, n);
+            var block1 = l.Next(0, 3);
+            var block2 = l.Next(0, 3);
             while (block1 == block2)
-                block2 = l.Next(0, n);
-            block1 *= n;
-            block2 *= n;
-            for(int i =0; i < n * n; i++)
+                block2 = l.Next(0, 3);
+            for (int i = 0; i < 3; i++)
             {
-                var t = block2;
-                for(int j = block1; j < block1 + n; j++)
+                for (int j = 0; j < 3; j++)
                 {
-                    var k = originalField[j, i];
-                    originalField[j, i] = originalField[k, i];
-                    originalField[j, i] = k;
-                    t++;
+                    int n1 = block1 * 3 + 1;
+                    int n2 = block2 * 3 + 1;
+                    int temp = originalField[n1, j];
+                    originalField[n1, j] = originalField[n2, j];
+                    originalField[n2, j] = temp;
                 }
             }
         }
