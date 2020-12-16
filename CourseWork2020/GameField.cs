@@ -150,13 +150,71 @@ namespace CourseWork2020
         }
         private void SwapColumne()//свапает одну колонку с другой
         {
-
+            int n = 3;
+            Random r = new Random();
+            var block = r.Next(0, n);
+            var col1 = r.Next(0, n);
+            var tow1 = block * n + col1;
+            var col2 = r.Next(0, n);
+            while (col1 == col2)
+                col2 = r.Next(0, n);
+            var tow2 = block * n + col2;
+            for(int i = 0; i < n * n; i++)
+            {
+                var temp = originalField[i, tow1];
+                originalField[i, tow1] = originalField[i, tow2];
+                originalField[i, tow2] = temp;
+            }
         }
         private void SwapBigColumne()//свапает большую колонку из 3 с другой 
         {
             Transpos();
             SwapBigLine();
             Transpos();
+        }
+        private void SudokuSolve(int[,] field)//вывод решения судоку
+        {
+            if (field == null || field.Length == 0)
+                return;
+            Solver(field);
+        }
+        private bool Solver(int[,] field)//решатель судоку
+        {
+            for(int i = 0; i < 9; i++)
+            {
+                for(int j = 0; j < 9; j++)
+                {
+                    if(field[i,j] == 0)
+                    {
+                        for(int c = 1; c <= 9; c++)
+                        {
+                            if (isValid(field, i, j, c))
+                            {
+                                field[i, j] = c;
+                                if (Solver(field))
+                                    return true;
+                                else
+                                    field[i, j] = 0;
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        private bool isValid(int[,] field, int line, int col, int c)//проверяет допустимо ли добавление числа в клетку
+        {
+            for(int i = 0; i < 9; i++)
+            {
+                if (field[i, col] != 0 && field[i, col] == c)
+                    return false;
+                if (field[line, i] != 0 && field[line, i] == c)
+                    return false;
+                if (field[3 * (line / 3) + i / 3, 3 * (col / 3) + i % 3] != 0 && field[3 * (line / 3) + i / 3, 3 * (col / 3) + i % 3] == c)
+                    return false;
+            }
+            return true;
         }
     }
 }
