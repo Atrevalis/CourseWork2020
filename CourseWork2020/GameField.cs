@@ -8,7 +8,7 @@ namespace CourseWork2020
         private int[,] startField;//поле неизменяемого состояния хранит в себе не изменяемые поля(стартовые и подсказанные)
         private int[,] problemField;//поле основной игры изменяемой игроком 
 
-        public GameField()//составляет изначальную сетку поля для обычного режима//ДОПИСАТЬ
+        public GameField(int diff)//составляет изначальную сетку поля для обычного режима//ДОПИСАТЬ
         {
             originalField = new int[9,9];
             problemField = new int[9, 9];
@@ -22,7 +22,7 @@ namespace CourseWork2020
                 }
             }
             Shaffle();
-            CreateProblem();
+            CreateProblem(diff);
             for (int i = 0; i < 9; i++)
             {
                 for (int j = 0; j < 9; j++)
@@ -32,7 +32,7 @@ namespace CourseWork2020
             }
 
         }
-        public GameField(int[,] field)//ДОПИСАТЬ
+        public GameField(int[,] field,int diff)//ДОПИСАТЬ
         {
                 originalField = new int[9, 9];
                 problemField = new int[9, 9];
@@ -44,7 +44,15 @@ namespace CourseWork2020
                     {
                         originalField[i, j] = field[i, j];
                     }
-                }  
+                }
+            CreateProblem(diff);
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    startField[i, j] = problemField[i, j];
+                }
+            }
         }
         public bool Check()//сравнивает поля ориджинал и проблем
         {
