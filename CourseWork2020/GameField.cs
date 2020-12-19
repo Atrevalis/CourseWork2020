@@ -4,9 +4,9 @@ namespace CourseWork2020
     public class GameField
     {
         
-        private int[,] originalField;//поле ответов
-        private int[,] startField;//поле неизменяемого состояния хранит в себе не изменяемые поля(стартовые и подсказанные)
-        private int[,] problemField;//поле основной игры изменяемой игроком 
+        public int[,] originalField;//поле ответов
+        public int[,] startField;//поле неизменяемого состояния хранит в себе не изменяемые поля(стартовые и подсказанные)
+        public int[,] problemField;//поле основной игры изменяемой игроком 
 
         public GameField(int diff)//составляет изначальную сетку поля для обычного режима//отдебажено
         {
@@ -205,7 +205,7 @@ namespace CourseWork2020
             }
             originalField = tempArray;
         }
-        private void SwapLine()//свапает одну линию с другой//отдебажено
+        private void SwapLine()//свапает одну линию с другой//отдебажено//сломано
         {
 
             Random random = new Random();
@@ -217,6 +217,7 @@ namespace CourseWork2020
             {
                 if (i!=non) { arr[j] = 3 * area + i; j++; }
             }
+            
             for (int i = 0;i < 9 ;i++)
             {
                 int temp = originalField[arr[0],i];
@@ -229,19 +230,20 @@ namespace CourseWork2020
         private void SwapBigLine()//свапает большую линию из 3 с другой//отдебажено
         {
             Random l = new Random();
-            var block1 = l.Next(0, 3);
-            var block2 = l.Next(0, 3);
-            while (block1 == block2)
-                block2 = l.Next(0, 3);
+            int blockNo = l.Next(3);
+            int[] arr = new int[2];
+            int t = 0;
             for (int i = 0; i < 3; i++)
             {
-                for (int j = 0; j < 3; j++)
+                if (i != blockNo) { arr[t] = 3 * i;t++;}
+            }
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 9; j++)
                 {
-                    int n1 = block1 * 3 + 1;
-                    int n2 = block2 * 3 + 1;
-                    int temp = originalField[n1, j];
-                    originalField[n1, j] = originalField[n2, j];
-                    originalField[n2, j] = temp;
+                    int temp = originalField[arr[0]+i, j];
+                    originalField[arr[0]+i, j] = originalField[arr[1]+i, j];
+                    originalField[arr[1]+i, j] = temp;
                 }
             }
         }
