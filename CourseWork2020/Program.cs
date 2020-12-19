@@ -7,7 +7,8 @@ namespace CourseWork2020
 
         public static void Main(string[] args)
         {
-            GameField gameField = new GameField(24);
+            GameField field = new GameField(25);
+            GameField gameField = new GameField(field.problemField,45);
             int kek = 5;
         }
     }
