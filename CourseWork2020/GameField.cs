@@ -8,7 +8,7 @@ namespace CourseWork2020
         private int[,] startField;//поле неизменяемого состояния хранит в себе не изменяемые поля(стартовые и подсказанные)
         private int[,] problemField;//поле основной игры изменяемой игроком 
 
-        public GameField(int diff)//составляет изначальную сетку поля для обычного режима//ДОПИСАТЬ
+        public GameField(int diff)//составляет изначальную сетку поля для обычного режима//отдебажено
         {
             originalField = new int[9,9];
             problemField = new int[9, 9];
@@ -18,10 +18,16 @@ namespace CourseWork2020
                 for (int j = 0; j < 9; j++)
                 {
                     originalField[i,j]=(j+i/3+i*3)%9+1;
-                    problemField[i,j] = originalField[i, j];
                 }
             }
             Shaffle();
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    problemField[i, j] = originalField[i, j];
+                }
+            }
             CreateProblem(diff);
             for (int i = 0; i < 9; i++)
             {
@@ -109,7 +115,7 @@ namespace CourseWork2020
             startField[x,y] = originalField[x, y];
             //Здесь обращение к  UI блокирующее поле с координатами x,y(скорее всего будет по другому и блокировать будет в анализаторе )
         }
-        public void CreateProblem(int diff)//создание игрового поля в соответствии со сложностью
+        public void CreateProblem(int diff)//создание игрового поля в соответствии со сложностью//отдебажено
         {
             int temp;
             int[,] look = new int[9, 9];//массив проверки посещения клетки
@@ -300,7 +306,7 @@ namespace CourseWork2020
                 }
             }
             return true;
-        }
+            }
         private bool isValid(int[,] field, int line, int col, int c)//проверяет допустимо ли добавление числа в клетку
         {
             for(int i = 0; i < 9; i++)
