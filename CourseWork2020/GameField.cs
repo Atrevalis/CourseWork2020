@@ -40,10 +40,12 @@ namespace CourseWork2020
         }
         public GameField(int[,] field,int diff)//
         {
+
             originalField = new int[9, 9];
             problemField = new int[9, 9];
             startField = new int[9, 9];
             UserOriginalField(field);
+
         }
         public bool Check()//сравнивает поля ориджинал и проблем
         {
@@ -114,14 +116,14 @@ namespace CourseWork2020
                 {
                     count += 1;
                     look[i, j] = 1;//пометка клетки
-                    temp = problemField[i, j];//сохранение изначальной клетки
-                    problemField[i, j] = 0;//удаление клетки
+                    temp = this.problemField[i, j];//сохранение изначальной клетки
+                    this.problemField[i, j] = 0;//удаление клетки
                     int[,] tempArray = new int[9, 9];//временный массив
                     for (int g = 0; g < 9; g++)//копируем в временный массив problemField
                     {
                         for (int h = 0; h < 9; h++)
                         {
-                            tempArray[g, h] = problemField[g, h];
+                            tempArray[g, h] = this.problemField[g, h];
                         }
                     }
                     if (SudokuSolve(tempArray))//проверка на решабельность поля
@@ -134,7 +136,7 @@ namespace CourseWork2020
                                     continue;
                                 else
                                 {
-                                    problemField[i, j] = temp;
+                                    this.problemField[i, j] = temp;
                                     break;
                                 }
                             }
@@ -142,7 +144,7 @@ namespace CourseWork2020
                     }
                     else
                     {
-                        problemField[i, j] = temp;
+                        this.problemField[i, j] = temp;
                         break;
                     }
                 }
@@ -310,12 +312,13 @@ namespace CourseWork2020
         
         private void UserOriginalField(int[,] tempArray)
         {
-            tempArray = new int[9,9];
+            
             for(int i = 0; i < 9; i++)
             {
                 for(int j = 0; j < 9; j++)
                 {
-                    tempArray[i, j] = problemField[i, j];
+                    problemField[i, j] = tempArray[i, j];
+                    startField[i, j] = tempArray[i, j];
                 }
             }
             SudokuSolve(tempArray);
@@ -324,7 +327,7 @@ namespace CourseWork2020
                 for (int j = 0; j < 9; j++)
                 {
                     originalField[i, j] = tempArray[i, j];
-                    startField[i, j] = originalField[i, j];
+                    
                 }
             }
         }
