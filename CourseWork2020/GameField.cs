@@ -322,5 +322,26 @@ namespace CourseWork2020
             }
             return true;
         }
+        
+        private void UserOriginalField(int[,] tempArray)
+        {
+            tempArray = new int[9,9];
+            for(int i = 0; i < 9; i++)
+            {
+                for(int j = 0; j < 9; j++)
+                {
+                    tempArray[i, j] = problemField[i, j];
+                }
+            }
+            SudokuSolve(tempArray);
+            for (int i = 0; i < 9; i++)
+            {
+                for (int j = 0; j < 9; j++)
+                {
+                    originalField[i, j] = tempArray[i, j];
+                    startField[i, j] = originalField[i, j];
+                }
+            }
+        }
     }
 }
