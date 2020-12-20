@@ -40,25 +40,10 @@ namespace CourseWork2020
         }
         public GameField(int[,] field,int diff)//
         {
-                originalField = new int[9, 9];
-                problemField = new int[9, 9];
-                startField = new int[9, 9];
-                bool create = SudokuSolve(field);
-                for (int i = 0; i < 9; i++)
-                {
-                    for (int j = 0; j < 9; j++)
-                    {
-                        originalField[i, j] = field[i, j];
-                    }
-                }
-            CreateProblem(diff);
-            for (int i = 0; i < 9; i++)
-            {
-                for (int j = 0; j < 9; j++)
-                {
-                    startField[i, j] = problemField[i, j];
-                }
-            }
+            originalField = new int[9, 9];
+            problemField = new int[9, 9];
+            startField = new int[9, 9];
+            UserOriginalField(field);
         }
         public bool Check()//сравнивает поля ориджинал и проблем
         {
